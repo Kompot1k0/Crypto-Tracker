@@ -11,6 +11,7 @@ struct CoinRowView: View {
     
     let coin: CoinModel
     let showHoldingColumn: Bool
+    let manager = ScreenSizeManager.inscance
     
     var body: some View {
         HStack(spacing: 0) {
@@ -60,17 +61,7 @@ extension CoinRowView {
                 .foregroundColor((coin.priceChangePercentage24H ?? 0) >= 0 ?
                                  Color.theme.green : Color.theme.red)
         }
-        .frame(width: getScreenWidth() / 3.5, alignment: .trailing)
-    }
-    
-    private func getScreenWidth() -> CGFloat {
-        if let screen = UIApplication.shared.connectedScenes
-            .compactMap({ $0 as? UIWindowScene })
-            .flatMap({ $0.windows })
-            .first(where: { $0.isKeyWindow })?.screen {
-            return screen.bounds.width
-        }
-        return UIScreen.main.bounds.width
+        .frame(width: manager.getScreenWidth() / 3.5, alignment: .trailing)
     }
 }
 

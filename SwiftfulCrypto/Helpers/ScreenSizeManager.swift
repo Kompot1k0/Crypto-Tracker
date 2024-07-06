@@ -7,9 +7,9 @@
 
 import SwiftUI
 
-class ScreenSize {
+class ScreenSizeManager {
     
-    static let inscance = ScreenSize()
+    static let inscance = ScreenSizeManager()
     private init() {}
     
     func getScreenWidth() -> CGFloat {
