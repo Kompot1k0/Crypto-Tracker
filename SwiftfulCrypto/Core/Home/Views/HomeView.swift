@@ -9,7 +9,11 @@ import SwiftUI
 
 struct HomeView: View {
     
+    @EnvironmentObject private var vm: HomeViewModel
+    
     @State private var isShowPortfolio: Bool = false
+    
+    let manager = ScreenSizeManager.inscance
     
     var body: some View {
         ZStack {
@@ -17,7 +21,21 @@ struct HomeView: View {
             Color.theme.background
             
             // foreground
-            homeHeader
+            VStack {
+                homeHeader
+                
+                columnTitles
+                
+                if !isShowPortfolio {
+                    allCoinsList
+                    .transition(.move(edge: .leading))
+                } else {
+                    portfolioCoinsList
+                    .transition(.move(edge: .trailing))
+                }
+                
+                Spacer(minLength: 0)
+            }
         }
     }
 }
@@ -46,9 +64,42 @@ extension HomeView {
                     }
             }
             .padding()
-            
-            Spacer(minLength: 0)
         }
+    }
+    
+    private var allCoinsList: some View {
+        List {
+            ForEach(vm.allCoins) { coin in
+                CoinRowView(coin: coin, showHoldingColumn: false)
+                    .listRowInsets(.init(top: 10, leading: 0, bottom: 10, trailing: 10))
+            }
+        }
+        .listStyle(.plain)
+    }
+    
+    private var portfolioCoinsList: some View {
+        List {
+            ForEach(vm.portfolioCoins) { coin in
+                CoinRowView(coin: coin, showHoldingColumn: true)
+                    .listRowInsets(.init(top: 10, leading: 0, bottom: 10, trailing: 10))
+            }
+        }
+        .listStyle(.plain)
+    }
+    
+    private var columnTitles: some View {
+        HStack {
+            Text("Coin")
+            Spacer()
+            if isShowPortfolio {
+                Text("Holdings")
+            }
+            Text("Price")
+                .frame(width: manager.getScreenWidth() / 3.5, alignment: .trailing)
+        }
+        .font(.caption)
+        .foregroundColor(.theme.secondaryText)
+        .padding(.horizontal)
     }
 }
 
@@ -57,6 +108,7 @@ struct HomeView_Previews: PreviewProvider {
         NavigationStack {
             HomeView()
                 .toolbar(.hidden)
+                .environmentObject(dev.vm)
         }
     }
 }
