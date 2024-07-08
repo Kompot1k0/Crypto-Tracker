@@ -15,10 +15,15 @@ class ImageDataService {
     
     private var imageSubscription: AnyCancellable?
     private let coin: CoinModel
+    private let fileManager = LocalFileManager.inctanse
     
     init(coin: CoinModel) {
         self.coin = coin
         downloadImage()
+    }
+    
+    private func getImage() {
+        
     }
     
     private func downloadImage() {
