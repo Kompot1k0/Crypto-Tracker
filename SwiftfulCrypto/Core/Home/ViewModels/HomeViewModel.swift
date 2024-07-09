@@ -10,6 +10,13 @@ import Combine
 
 class HomeViewModel: ObservableObject {
     
+    @Published var stat: [StatisticModel] = [
+        StatisticModel(title: "Title", value: "Value", persentage: 23.5),
+        StatisticModel(title: "Title", value: "Value"),
+        StatisticModel(title: "Title", value: "Value"),
+        StatisticModel(title: "Title", value: "Value", persentage: -0.07)
+    ]
+    
     @Published var allCoins: [CoinModel] = []
     @Published var portfolioCoins: [CoinModel] = []
     
@@ -29,6 +36,7 @@ class HomeViewModel: ObservableObject {
             .combineLatest(dataService.$allCoins)
             .debounce(for: .seconds(0.5), scheduler: DispatchQueue.main)
             .map(filterCoins)
+            .receive(on: DispatchQueue.main)
             .sink { [weak self] returnedCoins in
                 self?.allCoins = returnedCoins
             }

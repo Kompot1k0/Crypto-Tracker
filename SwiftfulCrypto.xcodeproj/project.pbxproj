@@ -28,6 +28,9 @@
 		84AA16E62C39739100B6BADF /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84AA16E52C39739100B6BADF /* HomeViewModel.swift */; };
 		84AA16ED2C397A6A00B6BADF /* ScreenSizeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84AA16EC2C397A6A00B6BADF /* ScreenSizeManager.swift */; };
 		84E15D612C3D1E4D0045C152 /* SearchBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E15D602C3D1E4D0045C152 /* SearchBarView.swift */; };
+		84E15D632C3D3DD20045C152 /* StatisticModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E15D622C3D3DD20045C152 /* StatisticModel.swift */; };
+		84E15D652C3D3F720045C152 /* StatisticBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E15D642C3D3F720045C152 /* StatisticBarView.swift */; };
+		84E15D672C3D575B0045C152 /* HomeStatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E15D662C3D575B0045C152 /* HomeStatView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -53,6 +56,9 @@
 		84AA16E52C39739100B6BADF /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		84AA16EC2C397A6A00B6BADF /* ScreenSizeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenSizeManager.swift; sourceTree = "<group>"; };
 		84E15D602C3D1E4D0045C152 /* SearchBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarView.swift; sourceTree = "<group>"; };
+		84E15D622C3D3DD20045C152 /* StatisticModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticModel.swift; sourceTree = "<group>"; };
+		84E15D642C3D3F720045C152 /* StatisticBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticBarView.swift; sourceTree = "<group>"; };
+		84E15D662C3D575B0045C152 /* HomeStatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeStatView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -140,6 +146,7 @@
 			children = (
 				841B55E02C39300600B5B641 /* HomeView.swift */,
 				841B55ED2C395A9600B5B641 /* CoinRowView.swift */,
+				84E15D662C3D575B0045C152 /* HomeStatView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -158,6 +165,7 @@
 				84267A092C3BE34B007DC112 /* CoinImage */,
 				841B55E32C39307C00B5B641 /* CircleButton */,
 				84E15D602C3D1E4D0045C152 /* SearchBarView.swift */,
+				84E15D642C3D3F720045C152 /* StatisticBarView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -175,6 +183,7 @@
 			isa = PBXGroup;
 			children = (
 				841B55EB2C39416B00B5B641 /* CoinModel.swift */,
+				84E15D622C3D3DD20045C152 /* StatisticModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -284,6 +293,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				84E15D632C3D3DD20045C152 /* StatisticModel.swift in Sources */,
 				841B55EE2C395A9600B5B641 /* CoinRowView.swift in Sources */,
 				84AA16E62C39739100B6BADF /* HomeViewModel.swift in Sources */,
 				841B55CE2C39240F00B5B641 /* ContentView.swift in Sources */,
@@ -291,10 +301,12 @@
 				841B55CC2C39240F00B5B641 /* SwiftfulCryptoApp.swift in Sources */,
 				84267A042C3BCAAC007DC112 /* CoinDataService.swift in Sources */,
 				841B55E52C39308F00B5B641 /* CircleButtonView.swift in Sources */,
+				84E15D652C3D3F720045C152 /* StatisticBarView.swift in Sources */,
 				84AA16ED2C397A6A00B6BADF /* ScreenSizeManager.swift in Sources */,
 				84267A0F2C3BEFBB007DC112 /* CoinImageViewModel.swift in Sources */,
 				841B55DB2C3926EA00B5B641 /* Color.swift in Sources */,
 				841B55E72C3931A900B5B641 /* CircleButtonAnimationView.swift in Sources */,
+				84E15D672C3D575B0045C152 /* HomeStatView.swift in Sources */,
 				84267A112C3C0714007DC112 /* LocalFileManager.swift in Sources */,
 				84E15D612C3D1E4D0045C152 /* SearchBarView.swift in Sources */,
 				841B55F02C395B0F00B5B641 /* PreviewProvider.swift in Sources */,

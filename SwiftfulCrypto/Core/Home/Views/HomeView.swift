@@ -23,19 +23,15 @@ struct HomeView: View {
             // foreground
             VStack {
                 homeHeader
-                
+                                    
+                HomeStatView(isShowPortfolio: $isShowPortfolio)
+                                    
                 SearchBarView(SearchBarText: $vm.searchBarText)
-                
+                    
                 columnTitles
                 
-                if !isShowPortfolio {
-                    allCoinsList
-                    .transition(.move(edge: .leading))
-                } else {
-                    portfolioCoinsList
-                    .transition(.move(edge: .trailing))
-                }
-                
+                coinsList
+        
                 Spacer(minLength: 0)
             }
         }
@@ -87,6 +83,18 @@ extension HomeView {
             }
         }
         .listStyle(.plain)
+    }
+    
+    private var coinsList: some View {
+        Group {
+            if !isShowPortfolio {
+                allCoinsList
+                .transition(.move(edge: .leading))
+            } else {
+                portfolioCoinsList
+                .transition(.move(edge: .trailing))
+            }
+        }
     }
     
     private var columnTitles: some View {
