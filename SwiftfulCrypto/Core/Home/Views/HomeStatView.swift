@@ -14,17 +14,14 @@ struct HomeStatView: View {
     @Binding var isShowPortfolio: Bool
     
     var body: some View {
-        GeometryReader { geometry in
-            HStack {
-                ForEach(vm.stat) { stat in
-                    StatisticBarView(stat: stat)
-                        .frame(width: geometry.size.width / 3)
-                }
+        HStack {
+            ForEach(vm.stat) { stat in
+                StatisticBarView(stat: stat)
+                    .frame(width: ScreenSizeManager.inscance.getScreenWidth() / 3)
             }
-            .frame(width: geometry.size.width,
-                   alignment: isShowPortfolio ? .trailing : .leading)
         }
-        .frame(height: 50)
+        .frame(width: ScreenSizeManager.inscance.getScreenWidth(),
+               alignment: isShowPortfolio ? .trailing : .leading)
     }
 }
 
