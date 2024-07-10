@@ -12,6 +12,11 @@ struct PortfolioView: View {
     @EnvironmentObject private var vm: HomeViewModel
     
     @State private var selectedCoin: CoinModel? = nil
+    @State private var quantityText: String = ""
+    
+    @State private var isShowCheckmark: Bool = false
+    
+    @FocusState private var isShowKeybord: Bool
     
     var body: some View {
         NavigationStack {
@@ -19,12 +24,17 @@ struct PortfolioView: View {
                 VStack(alignment: .leading, spacing: 0) {
                     SearchBarView(SearchBarText: $vm.searchBarText)
                     coinLogoList
+                    selectedCoinDetails
                 }
             }
             .navigationTitle("Edit Portfolio")
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     XmarkButton()
+                }
+                
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    saveButton
                 }
             }
         }
@@ -54,6 +64,7 @@ extension PortfolioView {
                                 } else {
                                     selectedCoin = coin
                                 }
+                                quantityText = ""
                             }
                         }
                         .background(
@@ -65,5 +76,77 @@ extension PortfolioView {
             .padding(.vertical, 4)
             .padding(.leading)
         }
+    }
+    
+    private var selectedCoinDetails: some View {
+        Group {
+            if selectedCoin != nil {
+                VStack(spacing: 20) {
+                    HStack {
+                        Text("Current price of \(selectedCoin?.symbol.uppercased() ?? "") is:")
+                        Spacer()
+                        Text(selectedCoin?.currentPrice.asCurrencyWith6Decimals() ?? "")
+                    }
+                    Divider()
+                    HStack {
+                        Text("Amount in portfolio: ")
+                        Spacer()
+                        TextField("Ex: 1.4", text: $quantityText)
+                            .multilineTextAlignment(.trailing)
+                            .keyboardType(.decimalPad)
+                            .focused($isShowKeybord)
+                    }
+                    Divider()
+                    HStack {
+                        Text("Current value: ")
+                        Spacer()
+                        Text(getCurrentValue().asCurrencyWith2Decimals())
+                    }
+                }
+                .padding()
+                .animation(.none)
+            }
+        }
+    }
+    
+    private var saveButton: some View {
+        HStack {
+            Image(systemName: "checkmark")
+                .opacity(isShowCheckmark ? 1 : 0)
+            
+            Button {
+                
+            } label: {
+                Text("SAVE")
+            }
+            .opacity(selectedCoin != nil && selectedCoin?.currentHoldings != Double(quantityText) ? 1 : 0)
+        }
+    }
+    
+    private func getCurrentValue() -> Double {
+        var result: Double = 0
+        
+        if let quntity = Double(quantityText) {
+            result = quntity * (selectedCoin?.currentPrice ?? 0)
+        }
+        
+        return result
+    }
+    
+    private func saveButtopPressed() {
+        
+        guard let coin = selectedCoin else { return }
+        
+        withAnimation(.easeIn) {
+            isShowCheckmark = true
+            removeSelectedCoin()
+        }
+        
+        isShowKeybord = false
+    }
+    
+    private func removeSelectedCoin() {
+        selectedCoin = nil
+        quantityText = ""
     }
 }
