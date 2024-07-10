@@ -11,7 +11,8 @@ struct HomeView: View {
     
     @EnvironmentObject private var vm: HomeViewModel
     
-    @State private var isShowPortfolio: Bool = false
+    @State private var isShowPortfolio: Bool = false // animated right
+    @State private var isShowPortfolioView: Bool = false // show sheet
     
     let manager = ScreenSizeManager.inscance
     
@@ -19,6 +20,10 @@ struct HomeView: View {
         ZStack {
             // background
             Color.theme.background
+                .sheet(isPresented: $isShowPortfolioView) {
+                    PortfolioView()
+                        .environmentObject(vm)
+                }
             
             // foreground
             VStack {
@@ -43,6 +48,11 @@ extension HomeView {
         VStack {
             HStack {
                 CircleButtonView(imageName: isShowPortfolio ? "plus" : "info")
+                    .onTapGesture {
+                        if isShowPortfolio {
+                            isShowPortfolioView = true
+                        }
+                    }
                     .animation(.none, value: isShowPortfolio)
                     .background(CircleButtonAnimationView(animate: $isShowPortfolio))
                 
