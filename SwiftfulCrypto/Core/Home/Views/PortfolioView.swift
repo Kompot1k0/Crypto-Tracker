@@ -113,9 +113,10 @@ extension PortfolioView {
         HStack {
             Image(systemName: "checkmark")
                 .opacity(isShowCheckmark ? 1 : 0)
+                .foregroundColor(.theme.green)
             
             Button {
-                
+                saveButtopPressed()
             } label: {
                 Text("SAVE")
             }
@@ -140,9 +141,14 @@ extension PortfolioView {
         withAnimation(.easeIn) {
             isShowCheckmark = true
             removeSelectedCoin()
+            isShowKeybord = false
         }
         
-        isShowKeybord = false
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
+            withAnimation(.easeOut){
+                isShowCheckmark = false
+            }
+        })
     }
     
     private func removeSelectedCoin() {
