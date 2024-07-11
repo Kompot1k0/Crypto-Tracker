@@ -65,10 +65,8 @@ extension PortfolioView {
                                     selectedCoin = nil
                                     vm.searchBarText = ""
                                 } else {
-                                    selectedCoin = coin
-                                    isShowKeybord = false
+                                    updateSelectedCoin(coin: coin)
                                 }
-                                quantityText = ""
                             }
                         }
                         .background(
@@ -128,6 +126,18 @@ extension PortfolioView {
         }
     }
     
+    private func updateSelectedCoin(coin: CoinModel) {
+        selectedCoin = coin
+        isShowKeybord = false
+        
+        if let portfolioCoin = vm.portfolioCoins.first(where: { $0.id == coin.id} ),
+           let amount = portfolioCoin.currentHoldings {
+            quantityText = String(amount)
+        } else {
+            quantityText = ""
+        }
+    }
+    
     private func getCurrentValue() -> Double {
         var result: Double = 0
         
@@ -140,7 +150,11 @@ extension PortfolioView {
     
     private func saveButtopPressed() {
         
-        guard let coin = selectedCoin else { return }
+        guard
+            let coin = selectedCoin,
+            let amount = Double(quantityText)
+        else { return }
+        vm.updatePortfolio(coin: coin, amount: amount)
         
         withAnimation(.easeIn) {
             isShowCheckmark = true
@@ -158,5 +172,6 @@ extension PortfolioView {
     private func removeSelectedCoin() {
         selectedCoin = nil
         quantityText = ""
+        vm.searchBarText = ""
     }
 }
