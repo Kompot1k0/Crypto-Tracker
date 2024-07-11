@@ -9,19 +9,21 @@ import SwiftUI
 
 struct SearchBarView: View {
     
-    @Binding var SearchBarText: String
-    @FocusState private var fieldInFocus: Bool
+    @Binding var searchBarText: String
+    @Binding var selectedCoin: CoinModel?
+    
+    @FocusState private var searchBarFieldInFocus: Bool
     
     var body: some View {
         HStack {
             Image(systemName: "magnifyingglass")
-                .foregroundColor(SearchBarText.isEmpty ?  .theme.secondaryText : .theme.accent)
-                .animation(.default, value: SearchBarText)
+                .foregroundColor(searchBarText.isEmpty ?  .theme.secondaryText : .theme.accent)
+                .animation(.default, value: searchBarText)
             
-            TextField("Search by name or symbol...", text: $SearchBarText)
+            TextField("Search by name or symbol...", text: $searchBarText)
                 .foregroundColor(.theme.accent)
                 .autocorrectionDisabled(true)
-                .focused($fieldInFocus)
+                .focused($searchBarFieldInFocus)
         }
         .font(.headline)
         .padding()
@@ -34,13 +36,14 @@ struct SearchBarView: View {
         }
         .overlay(alignment: .trailing) {
             Image(systemName: "xmark.circle.fill")
-                .foregroundColor(SearchBarText.isEmpty ? .clear : .theme.accent)
+                .foregroundColor(searchBarText.isEmpty ? .clear : .theme.accent)
                 .padding()
                 .onTapGesture {
-                    SearchBarText = ""
-                    fieldInFocus = false
+                    searchBarText = ""
+                    selectedCoin = nil
+                    searchBarFieldInFocus = false
                 }
-                .animation(.easeIn, value: SearchBarText)
+                .animation(.easeIn, value: searchBarText)
         }
         .padding()
     }
@@ -48,6 +51,6 @@ struct SearchBarView: View {
 
 struct SearchBarView_Previews: PreviewProvider {
     static var previews: some View {
-        SearchBarView(SearchBarText: .constant(""))
+        SearchBarView(searchBarText: .constant(""), selectedCoin: .constant(nil))
     }
 }

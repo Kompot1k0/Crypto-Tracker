@@ -22,6 +22,8 @@ class HomeViewModel: ObservableObject {
     
     @Published var searchBarText: String = ""
     
+    @Published var selectedCoin: CoinModel? = nil
+    
     private let coinDataService = CoinDataService()
     private let marketDataService = MarketDataService()
     

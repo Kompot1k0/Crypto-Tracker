@@ -21,7 +21,7 @@ struct HomeView: View {
             // background
             Color.theme.background
                 .sheet(isPresented: $isShowPortfolioView) {
-                    PortfolioView()
+                    PortfolioView(selectedCoin: $vm.selectedCoin)
                         .environmentObject(vm)
                 }
             
@@ -31,7 +31,7 @@ struct HomeView: View {
                                     
                 HomeStatView(isShowPortfolio: $isShowPortfolio)
                                     
-                SearchBarView(SearchBarText: $vm.searchBarText)
+                SearchBarView(searchBarText: $vm.searchBarText, selectedCoin: $vm.selectedCoin)
                     
                 columnTitles
                 

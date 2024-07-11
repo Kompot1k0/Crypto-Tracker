@@ -11,7 +11,8 @@ struct PortfolioView: View {
     
     @EnvironmentObject private var vm: HomeViewModel
     
-    @State private var selectedCoin: CoinModel? = nil
+    @Binding var selectedCoin: CoinModel?
+    
     @State private var quantityText: String = ""
     
     @State private var isShowCheckmark: Bool = false
@@ -22,7 +23,8 @@ struct PortfolioView: View {
         NavigationStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: 0) {
-                    SearchBarView(SearchBarText: $vm.searchBarText)
+                    SearchBarView(searchBarText: $vm.searchBarText, selectedCoin: $vm.selectedCoin)
+                        .focused($isShowKeybord)
                     coinLogoList
                     selectedCoinDetails
                 }
@@ -43,7 +45,7 @@ struct PortfolioView: View {
 
 struct PortfolioView_Previews: PreviewProvider {
     static var previews: some View {
-        PortfolioView()
+        PortfolioView(selectedCoin: .constant(nil))
             .environmentObject(dev.vm)
     }
 }
@@ -61,8 +63,10 @@ extension PortfolioView {
                             withAnimation(.easeInOut) {
                                 if selectedCoin?.id == coin.id {
                                     selectedCoin = nil
+                                    vm.searchBarText = ""
                                 } else {
                                     selectedCoin = coin
+                                    isShowKeybord = false
                                 }
                                 quantityText = ""
                             }
