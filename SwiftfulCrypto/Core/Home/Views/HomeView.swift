@@ -13,6 +13,7 @@ struct HomeView: View {
     
     @State private var isShowPortfolio: Bool = false // animated right
     @State private var isShowPortfolioView: Bool = false // show sheet
+    @State private var isShowDetailView: Bool = false // show DetailView
     
     let manager = ScreenSizeManager.inscance
     
@@ -40,6 +41,9 @@ struct HomeView: View {
                 Spacer(minLength: 0)
             }
         }
+        .background(
+            Navi
+        )
     }
 }
 
@@ -83,6 +87,9 @@ extension HomeView {
             ForEach(vm.allCoins) { coin in
                 CoinRowView(coin: coin, showHoldingColumn: false)
                     .listRowInsets(.init(top: 10, leading: 0, bottom: 10, trailing: 10))
+                    .onTapGesture {
+                        segue(coin: coin)
+                    }
             }
         }
         .listStyle(.plain)
@@ -175,6 +182,10 @@ extension HomeView {
         .font(.caption)
         .foregroundColor(.theme.secondaryText)
         .padding(.horizontal)
+    }
+    
+    private func segue(coin: CoinModel) {
+        
     }
 }
 
