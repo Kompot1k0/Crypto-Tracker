@@ -20,8 +20,8 @@ struct HomeView: View {
         ZStack {
             // background
             Color.theme.background
-                .sheet(isPresented: $isShowPortfolioView) {
-                    PortfolioView(selectedCoin: $vm.selectedCoin)
+                .sheet(isPresented: $isShowPortfolioView, onDismiss: { vm.selectedCoin = nil }) {
+                    PortfolioView(selectedCoin: $vm.selectedCoin, quantityText: $vm.quantityText)
                         .environmentObject(vm)
                 }
             
@@ -93,14 +93,16 @@ extension HomeView {
             ForEach(vm.portfolioCoins) { coin in
                 CoinRowView(coin: coin, showHoldingColumn: true)
                     .listRowInsets(.init(top: 10, leading: 0, bottom: 10, trailing: 10))
+                    // show EditPortfolio by press on coin with choosen coin selected
                     .onTapGesture {
                         if isShowPortfolio {
                             withAnimation(.spring()) {
-                                vm.selectedCoin = coin
+                                vm.updateSelectedCoin(coin: coin)
                                 isShowPortfolioView = true
                             }
                         }
                     }
+                    // delete coin by swipe
                     .swipeActions(edge: .trailing,
                                   allowsFullSwipe: false,
                                   content: {
