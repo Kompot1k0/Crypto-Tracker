@@ -13,7 +13,7 @@ struct PortfolioView: View {
     
     @Binding var selectedCoin: CoinModel?
     
-    @State private var quantityText: String = ""
+    @Binding var quantityText: String
     
     @State private var isShowCheckmark: Bool = false
     
@@ -45,12 +45,14 @@ struct PortfolioView: View {
 
 struct PortfolioView_Previews: PreviewProvider {
     static var previews: some View {
-        PortfolioView(selectedCoin: .constant(nil))
+        PortfolioView(selectedCoin: .constant(nil), quantityText: .constant(""))
             .environmentObject(dev.vm)
     }
 }
 
 extension PortfolioView {
+    
+    // MARK: COMPONENTS
     
     private var coinLogoList: some View {
         ScrollView(.horizontal, showsIndicators: false) {
@@ -65,7 +67,8 @@ extension PortfolioView {
                                     selectedCoin = nil
                                     vm.searchBarText = ""
                                 } else {
-                                    updateSelectedCoin(coin: coin)
+                                    vm.updateSelectedCoin(coin: coin)
+                                    isShowKeybord = false
                                 }
                             }
                         }
@@ -148,7 +151,7 @@ extension PortfolioView {
         
         withAnimation(.easeIn) {
             isShowCheckmark = true
-            removeSelectedCoin()
+            unselectSelectedCoin()
             isShowKeybord = false
         }
         
@@ -159,7 +162,7 @@ extension PortfolioView {
         })
     }
     
-    private func removeSelectedCoin() {
+    private func unselectSelectedCoin() {
         selectedCoin = nil
         quantityText = ""
         vm.searchBarText = ""

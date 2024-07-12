@@ -10,17 +10,13 @@ import Combine
 
 class HomeViewModel: ObservableObject {
     
-    @Published var stat: [StatisticModel] = [
-        StatisticModel(title: "Title", value: "Value", persentage: 23.5),
-        StatisticModel(title: "Title", value: "Value"),
-        StatisticModel(title: "Title", value: "Value"),
-        StatisticModel(title: "Title", value: "Value", persentage: -0.07)
-    ]
+    @Published var stat: [StatisticModel] = []
     
     @Published var allCoins: [CoinModel] = []
     @Published var portfolioCoins: [CoinModel] = []
     
     @Published var searchBarText: String = ""
+    @Published var quantityText: String = ""
     
     @Published var selectedCoin: CoinModel? = nil
     
