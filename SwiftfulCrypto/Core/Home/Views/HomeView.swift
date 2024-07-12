@@ -50,9 +50,12 @@ extension HomeView {
                 CircleButtonView(imageName: isShowPortfolio ? "plus" : "info")
                     .onTapGesture {
                         if isShowPortfolio {
-                            isShowPortfolioView = true
+                            withAnimation(.spring()) {
+                                isShowPortfolioView = true
+                            }
                         }
                     }
+
                     .animation(.none, value: isShowPortfolio)
                     .background(CircleButtonAnimationView(animate: $isShowPortfolio))
                 
@@ -90,6 +93,21 @@ extension HomeView {
             ForEach(vm.portfolioCoins) { coin in
                 CoinRowView(coin: coin, showHoldingColumn: true)
                     .listRowInsets(.init(top: 10, leading: 0, bottom: 10, trailing: 10))
+                    .onTapGesture {
+                        if isShowPortfolio {
+                            withAnimation(.spring()) {
+                                vm.selectedCoin = coin
+                                isShowPortfolioView = true
+                            }
+                        }
+                    }
+                    .swipeActions(edge: .trailing,
+                                  allowsFullSwipe: false,
+                                  content: {
+                        Button("Delete", role: .destructive, action: {
+                            vm.updatePortfolio(coin: coin, amount: 0)
+                        })
+                    })
             }
         }
         .listStyle(.plain)
