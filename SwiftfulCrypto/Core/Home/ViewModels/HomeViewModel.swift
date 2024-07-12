@@ -79,6 +79,12 @@ class HomeViewModel: ObservableObject {
         }
     }
     
+    func reloadData() {
+        coinDataService.getCoins()
+        marketDataService.getData()
+        HapticManager.shared.notification(type: .success)
+    }
+    
     // MARK: PRIVATE FUNCs
     
     private func filterCoins(text: String, startingCoins: [CoinModel]) -> [CoinModel] {
