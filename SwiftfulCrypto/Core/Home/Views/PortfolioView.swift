@@ -126,17 +126,7 @@ extension PortfolioView {
         }
     }
     
-    private func updateSelectedCoin(coin: CoinModel) {
-        selectedCoin = coin
-        isShowKeybord = false
-        
-        if let portfolioCoin = vm.portfolioCoins.first(where: { $0.id == coin.id} ),
-           let amount = portfolioCoin.currentHoldings {
-            quantityText = String(amount)
-        } else {
-            quantityText = ""
-        }
-    }
+    // MARK: FUNCs
     
     private func getCurrentValue() -> Double {
         var result: Double = 0

@@ -65,9 +65,25 @@ class HomeViewModel: ObservableObject {
             .store(in: &cancellables)
     }
     
+    // MARK: FUNCs
+    
     func updatePortfolio(coin: CoinModel, amount: Double) {
         portfolioDataService.updatePortfolio(coin: coin, amount: amount)
+        quantityText = ""
     }
+    
+    func updateSelectedCoin(coin: CoinModel) {
+        selectedCoin = coin
+        
+        if let portfolioCoin = portfolioCoins.first(where: { $0.id == coin.id} ),
+           let amount = portfolioCoin.currentHoldings {
+            quantityText = String(amount)
+        } else {
+            quantityText = ""
+        }
+    }
+    
+    // MARK: PRIVATE FUNCs
     
     private func filterCoins(text: String, startingCoins: [CoinModel]) -> [CoinModel] {
         
