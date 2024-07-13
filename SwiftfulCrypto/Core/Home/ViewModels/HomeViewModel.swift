@@ -49,15 +49,6 @@ class HomeViewModel: ObservableObject {
             }
             .store(in: &cancellables)
         
-        // updates stat
-        marketDataService.$marketData
-            .combineLatest($portfolioCoins)
-            .map (mapGlobalMarketData)
-            .sink { [weak self] returnedData in
-                self?.stat = returnedData
-            }
-            .store(in: &cancellables)
-        
         // updates portfolioCoins
         $allCoins
             .combineLatest(portfolioDataService.$coinsInPortfolio)
@@ -67,6 +58,16 @@ class HomeViewModel: ObservableObject {
                 self.portfolioCoins = self.sortCoinsIfNeeded(coins: returnedData)
             }
             .store(in: &cancellables)
+        
+        // updates stat
+        marketDataService.$marketData
+            .combineLatest($portfolioCoins)
+            .map (mapGlobalMarketData)
+            .sink { [weak self] returnedData in
+                self?.stat = returnedData
+            }
+            .store(in: &cancellables)
+        
     }
     
     // MARK: FUNCs
