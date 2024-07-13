@@ -41,9 +41,8 @@ struct HomeView: View {
                 Spacer(minLength: 0)
             }
         }
-        .background(
-            Navi
-        )
+        .navigationDestination(isPresented: $isShowDetailView, destination: { DetailLoadingView(coin: vm.selectedCoin ?? nil) })
+//        .navigationDestination(for: CoinModel.self, destination: { DetailView(coin: vm.selectedCoin ?? nil) })
     }
 }
 
@@ -88,7 +87,9 @@ extension HomeView {
                 CoinRowView(coin: coin, showHoldingColumn: false)
                     .listRowInsets(.init(top: 10, leading: 0, bottom: 10, trailing: 10))
                     .onTapGesture {
-                        segue(coin: coin)
+                        withAnimation(.linear) {
+                            segue(coin: coin)
+                        }
                     }
             }
         }
@@ -185,7 +186,8 @@ extension HomeView {
     }
     
     private func segue(coin: CoinModel) {
-        
+        vm.selectedCoin = coin
+        isShowDetailView = true
     }
 }
 
