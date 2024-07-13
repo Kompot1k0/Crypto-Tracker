@@ -53,6 +53,7 @@ class HomeViewModel: ObservableObject {
         $allCoins
             .combineLatest(portfolioDataService.$coinsInPortfolio)
             .map(mapPortfolioData)
+            .receive(on: DispatchQueue.main)
             .sink { [weak self] returnedData in
                 guard let self = self else { return }
                 self.portfolioCoins = self.sortCoinsIfNeeded(coins: returnedData)
@@ -68,24 +69,28 @@ class HomeViewModel: ObservableObject {
             }
             .store(in: &cancellables)
         
+        $selectedCoin
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] coin in
+                
+                if let coin = coin {
+                    if let portfolioCoin = self?.portfolioCoins.first(where: { $0.id == coin.id} ),
+                       let amount = portfolioCoin.currentHoldings {
+                        self?.quantityText = String(amount)
+                    } else {
+                        self?.quantityText = ""
+                    }
+                } else {
+                    self?.quantityText = ""
+                }
+            }
+            .store(in: &cancellables)
     }
     
     // MARK: FUNCs
     
     func updatePortfolio(coin: CoinModel, amount: Double) {
         portfolioDataService.updatePortfolio(coin: coin, amount: amount)
-        quantityText = ""
-    }
-    
-    func updateSelectedCoin(coin: CoinModel) {
-        selectedCoin = coin
-        
-        if let portfolioCoin = portfolioCoins.first(where: { $0.id == coin.id} ),
-           let amount = portfolioCoin.currentHoldings {
-            quantityText = String(amount)
-        } else {
-            quantityText = ""
-        }
     }
     
     func reloadData() {
@@ -149,9 +154,9 @@ class HomeViewModel: ObservableObject {
     private func mapGlobalMarketData(data: MarketDataModel?, portfolioCoins: [CoinModel]) -> [StatisticModel] {
         
         var stat: [StatisticModel] = []
-
+        
         guard let data = data else { return stat }
-
+        
         let marketCap = StatisticModel(title: "Market Cap", value: data.marketCap, persentage: data.marketCapChangePercentage24HUsd)
         let totalVolume = StatisticModel(title: "24h Volume", value: data.volume)
         let btcDominance = StatisticModel(title: "BTC Dominance", value: data.btcDominance)
@@ -166,7 +171,7 @@ class HomeViewModel: ObservableObject {
                 let percentChange = (coin.priceChangePercentage24H ?? 0) / 100
                 let previousValue = currentValue / (1 + percentChange)
                 return previousValue
-        }
+            }
             .reduce(0, +)
         
         let percentageChange = ((portfolioValue - previousValue) / previousValue) * 100
@@ -174,14 +179,14 @@ class HomeViewModel: ObservableObject {
         let portfolio = StatisticModel(title: "Portfolio Value",
                                        value: portfolioValue.asCurrencyWith2Decimals(),
                                        persentage: percentageChange)
-
+        
         stat.append(contentsOf: [
             marketCap,
             totalVolume,
             btcDominance,
             portfolio
         ])
-
+        
         return stat
     }
     

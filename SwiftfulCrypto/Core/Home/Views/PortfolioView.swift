@@ -67,7 +67,7 @@ extension PortfolioView {
                                     selectedCoin = nil
                                     vm.searchBarText = ""
                                 } else {
-                                    vm.updateSelectedCoin(coin: coin)
+                                    vm.selectedCoin = coin
                                     isShowKeybord = false
                                 }
                             }
@@ -164,7 +164,6 @@ extension PortfolioView {
     
     private func unselectSelectedCoin() {
         selectedCoin = nil
-        quantityText = ""
         vm.searchBarText = ""
     }
 }

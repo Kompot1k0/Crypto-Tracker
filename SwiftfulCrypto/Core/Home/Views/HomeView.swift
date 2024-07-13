@@ -110,7 +110,7 @@ extension HomeView {
                     .onTapGesture {
                         if isShowPortfolio {
                             withAnimation(.spring()) {
-                                vm.updateSelectedCoin(coin: coin)
+                                vm.selectedCoin = coin
                                 isShowPortfolioView = true
                             }
                         }
