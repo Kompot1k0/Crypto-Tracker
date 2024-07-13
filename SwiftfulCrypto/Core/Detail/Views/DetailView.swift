@@ -7,12 +7,27 @@
 
 import SwiftUI
 
-struct DetailView: View {
-    
-    let coin: CoinModel
+struct DetailLoadingView: View {
+    let coin: CoinModel?
     
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        if let coin = coin {
+            DetailView(coin: coin)
+        }
+    }
+}
+
+struct DetailView: View {
+    
+    let coin: CoinModel?
+    
+    var body: some View {
+        if let coin = coin {
+            VStack {
+                Text(coin.name)
+                Text(coin.symbol)
+            }
+        }
     }
 }
 
