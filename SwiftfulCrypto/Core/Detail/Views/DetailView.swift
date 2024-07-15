@@ -19,14 +19,15 @@ struct DetailLoadingView: View {
 
 struct DetailView: View {
     
-    let coin: CoinModel?
+    @StateObject private var vm: DetailViewModel
+    
+    init(coin: CoinModel) {
+        _vm = StateObject(wrappedValue: DetailViewModel(coin: coin))
+    }
     
     var body: some View {
-        if let coin = coin {
-            VStack {
-                Text(coin.name)
-                Text(coin.symbol)
-            }
+        VStack {
+            Text("tmp")
         }
     }
 }
