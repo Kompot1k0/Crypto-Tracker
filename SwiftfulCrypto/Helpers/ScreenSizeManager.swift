@@ -22,4 +22,14 @@ class ScreenSizeManager {
         return UIScreen.main.bounds.width
     }
     
+    func getScreenHight() -> CGFloat {
+        if let screen = UIApplication.shared.connectedScenes
+            .compactMap({ $0 as? UIWindowScene })
+            .flatMap({ $0.windows })
+            .first(where: { $0.isKeyWindow })?.screen {
+            return screen.bounds.height
+        }
+        return UIScreen.main.bounds.height
+    }
+    
 }
