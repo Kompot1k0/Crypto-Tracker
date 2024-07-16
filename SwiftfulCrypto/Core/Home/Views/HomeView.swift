@@ -13,36 +13,35 @@ struct HomeView: View {
     
     @State private var isShowPortfolio: Bool = false // animated right
     @State private var isShowPortfolioView: Bool = false // show sheet
-    @State private var isShowDetailView: Bool = false // show DetailView
     
     let manager = ScreenSizeManager.inscance
     
     var body: some View {
-        ZStack {
-            // background
-            Color.theme.background
-                .sheet(isPresented: $isShowPortfolioView, onDismiss: { vm.selectedCoin = nil }) {
-                    PortfolioView(selectedCoin: $vm.selectedCoin, quantityText: $vm.quantityText)
-                        .environmentObject(vm)
-                }
-            
-            // foreground
-            VStack {
-                homeHeader
-                                    
-                HomeStatView(isShowPortfolio: $isShowPortfolio)
-                                    
-                SearchBarView(searchBarText: $vm.searchBarText, selectedCoin: $vm.selectedCoin)
-                    
-                columnTitles
+        NavigationStack {
+            ZStack {
+                // background
+                Color.theme.background
+                    .sheet(isPresented: $isShowPortfolioView, onDismiss: { vm.selectedCoin = nil }) {
+                        PortfolioView(selectedCoin: $vm.selectedCoin, quantityText: $vm.quantityText)
+                            .environmentObject(vm)
+                    }
                 
-                coinsList
-        
-                Spacer(minLength: 0)
+                // foreground
+                VStack {
+                    homeHeader
+                                        
+                    HomeStatView(isShowPortfolio: $isShowPortfolio)
+                                        
+                    SearchBarView(searchBarText: $vm.searchBarText, selectedCoin: $vm.selectedCoin)
+                        
+                    columnTitles
+                    
+                    coinsList
+            
+                    Spacer(minLength: 0)
+                }
             }
         }
-        .navigationDestination(isPresented: $isShowDetailView, destination: { DetailLoadingView(coin: vm.selectedCoin ?? nil) })
-//        .navigationDestination(for: CoinModel.self, destination: { DetailView(coin: vm.selectedCoin ?? nil) })
     }
 }
 
@@ -84,13 +83,10 @@ extension HomeView {
     private var allCoinsList: some View {
         List {
             ForEach(vm.allCoins) { coin in
-                CoinRowView(coin: coin, showHoldingColumn: false)
-                    .listRowInsets(.init(top: 10, leading: 0, bottom: 10, trailing: 10))
-                    .onTapGesture {
-                        withAnimation(.linear) {
-                            segue(coin: coin)
-                        }
-                    }
+                NavigationLink(value: coin) {
+                    CoinRowView(coin: coin, showHoldingColumn: false)
+                        .listRowInsets(.init(top: 10, leading: 0, bottom: 10, trailing: 10))
+                }
             }
         }
         .listStyle(.plain)
@@ -99,6 +95,8 @@ extension HomeView {
                 vm.reloadData()
             }
         }
+        .navigationDestination(for: CoinModel.self, destination: { coin in
+            DetailView(coin: coin) })
     }
     
     private var portfolioCoinsList: some View {
@@ -185,10 +183,6 @@ extension HomeView {
         .padding(.horizontal)
     }
     
-    private func segue(coin: CoinModel) {
-        vm.selectedCoin = coin
-        isShowDetailView = true
-    }
 }
 
 struct HomeView_Previews: PreviewProvider {
