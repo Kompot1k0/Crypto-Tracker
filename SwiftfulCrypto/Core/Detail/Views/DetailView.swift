@@ -7,16 +7,6 @@
 
 import SwiftUI
 
-struct DetailLoadingView: View {
-    let coin: CoinModel?
-    
-    var body: some View {
-        if let coin = coin {
-            DetailView(coin: coin)
-        }
-    }
-}
-
 struct DetailView: View {
     
     @StateObject private var vm: DetailViewModel
