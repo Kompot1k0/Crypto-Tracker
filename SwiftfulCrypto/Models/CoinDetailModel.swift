@@ -130,6 +130,6 @@ struct Links: Codable {
     
     enum CodingKeys: String, CodingKey {
         case homepage
-        case officialForrumURL = "official_forum_url"
+        case officialForumURL = "official_forum_url"
     }
 }

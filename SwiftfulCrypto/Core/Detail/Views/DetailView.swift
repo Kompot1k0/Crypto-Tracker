@@ -11,6 +11,8 @@ struct DetailView: View {
     
     @StateObject private var vm: DetailViewModel
     
+    @State private var showFullDescription: Bool = false
+    
     private var columns: [GridItem] = [
         GridItem(.flexible()),
         GridItem(.flexible())
@@ -26,7 +28,10 @@ struct DetailView: View {
             VStack(spacing: 20) {
                 overview
                 Divider()
+                description
+                Divider()
                 additionalDetails
+                websiteLinks
             }
             .padding()
         }
@@ -73,6 +78,31 @@ extension DetailView {
         }
     }
     
+    private var description: some View {
+        Group {
+            if let coinDescription = vm.coinDescription, !coinDescription.isEmpty {
+                VStack(alignment: .leading) {
+                    Text(coinDescription)
+                        .font(.callout)
+                        .foregroundColor(.theme.secondaryText)
+                        .lineLimit(showFullDescription ? nil : 3)
+                    Button {
+                        withAnimation(.easeInOut) {
+                            showFullDescription.toggle()
+                        }
+                    } label: {
+                        Text(showFullDescription ? "Less..." : "Read More...")
+                            .font(.caption)
+                            .bold()
+                            .padding(.vertical, 4)
+                    }
+                    .tint(.blue)
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+            }
+        }
+    }
+    
     private var additionalDetails: some View {
         Group {
             Text("Additional Details")
@@ -90,6 +120,26 @@ extension DetailView {
                     StatisticBarView(stat: stat)
                 }
             }
+        }
+    }
+    
+    private var websiteLinks: some View {
+        HStack {
+            VStack(alignment: .leading) {
+                if let websiteString = vm.webSiteURL,
+                   let url = URL(string: websiteString) {
+                    Link("Website", destination: url)
+                }
+                
+                if let forumString = vm.forumURL,
+                   let url = URL(string: forumString) {
+                    Link("Forum", destination: url)
+                }
+            }
+            .tint(.blue)
+            .font(.headline)
+            
+            Spacer()
         }
     }
 }
