@@ -125,7 +125,7 @@ extension DetailView {
     
     private var websiteLinks: some View {
         HStack {
-            VStack(alignment: .leading) {
+            VStack(alignment: .leading, spacing: 10) {
                 if let websiteString = vm.webSiteURL,
                    let url = URL(string: websiteString) {
                     Link("Website", destination: url)
@@ -137,7 +137,7 @@ extension DetailView {
                 }
             }
             .tint(.blue)
-            .font(.headline)
+            .font(.caption)
             
             Spacer()
         }
