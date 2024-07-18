@@ -13,6 +13,7 @@ struct HomeView: View {
     
     @State private var isShowPortfolio: Bool = false // animated right
     @State private var isShowPortfolioView: Bool = false // show sheet
+    @State private var isShowSettingsView: Bool = false // show sheet
     
     let manager = ScreenSizeManager.inscance
     
@@ -40,6 +41,9 @@ struct HomeView: View {
             
                     Spacer(minLength: 0)
                 }
+                .sheet(isPresented: $isShowSettingsView) {
+                    SettingsView()
+                }
             }
         }
     }
@@ -54,6 +58,10 @@ extension HomeView {
                         if isShowPortfolio {
                             withAnimation(.spring()) {
                                 isShowPortfolioView = true
+                            }
+                        } else {
+                            withAnimation(.spring()) {
+                                isShowSettingsView = true
                             }
                         }
                     }
@@ -190,7 +198,7 @@ struct HomeView_Previews: PreviewProvider {
         NavigationStack {
             HomeView()
                 .toolbar(.hidden)
-                .environmentObject(dev.vm)
         }
+        .environmentObject(dev.vm)
     }
 }

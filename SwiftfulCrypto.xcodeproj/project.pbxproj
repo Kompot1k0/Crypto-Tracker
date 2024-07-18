@@ -26,6 +26,7 @@
 		84267A112C3C0714007DC112 /* LocalFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84267A102C3C0714007DC112 /* LocalFileManager.swift */; };
 		8439D9462C3FD760002E508D /* PortfolioContainer.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 8439D9442C3FD760002E508D /* PortfolioContainer.xcdatamodeld */; };
 		8439D9482C3FD7CC002E508D /* PortfolioDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8439D9472C3FD7CC002E508D /* PortfolioDataService.swift */; };
+		845F5AE92C49423A002D133B /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845F5AE82C49423A002D133B /* SettingsView.swift */; };
 		84811E442C469301006CC904 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84811E432C469301006CC904 /* String.swift */; };
 		849510B92C41338F00D883B2 /* HapticManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849510B82C41338F00D883B2 /* HapticManager.swift */; };
 		849510BE2C4151F800D883B2 /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849510BD2C4151F800D883B2 /* DetailView.swift */; };
@@ -69,6 +70,7 @@
 		84267A102C3C0714007DC112 /* LocalFileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalFileManager.swift; sourceTree = "<group>"; };
 		8439D9452C3FD760002E508D /* PortfolioContainer.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = PortfolioContainer.xcdatamodel; sourceTree = "<group>"; };
 		8439D9472C3FD7CC002E508D /* PortfolioDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioDataService.swift; sourceTree = "<group>"; };
+		845F5AE82C49423A002D133B /* SettingsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		84811E432C469301006CC904 /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		849510B82C41338F00D883B2 /* HapticManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticManager.swift; sourceTree = "<group>"; };
 		849510BD2C4151F800D883B2 /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
@@ -161,6 +163,7 @@
 				841B55E22C39306C00B5B641 /* Components */,
 				841B55DD2C392FCF00B5B641 /* Home */,
 				849510BA2C41518600D883B2 /* Detail */,
+				845F5AE62C49423A002D133B /* Settings */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -256,6 +259,22 @@
 				849619F02C3E98150089F53B /* CoinLogoView.swift */,
 			);
 			path = CoinImage;
+			sourceTree = "<group>";
+		};
+		845F5AE62C49423A002D133B /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				845F5AE72C49423A002D133B /* Views */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		845F5AE72C49423A002D133B /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				845F5AE82C49423A002D133B /* SettingsView.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		849510BA2C41518600D883B2 /* Detail */ = {
@@ -399,6 +418,7 @@
 				84267A0D2C3BE983007DC112 /* ImageDataService.swift in Sources */,
 				84CF9E582C450D62009EAC77 /* DetailViewModel.swift in Sources */,
 				8439D9482C3FD7CC002E508D /* PortfolioDataService.swift in Sources */,
+				845F5AE92C49423A002D133B /* SettingsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

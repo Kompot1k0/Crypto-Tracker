@@ -19,9 +19,9 @@ struct SettingsView: View {
     var body: some View {
         NavigationStack {
             List {
+                developerSection
                 aboutSection
                 coingeckoSection
-                developerSection
                 applicationSection
             }
             .accentColor(.blue)
@@ -84,13 +84,13 @@ extension SettingsView {
     private var developerSection: some View {
         Section(header: Text("Developer")) {
             VStack(alignment: .leading, spacing: 10) {
-                Image("coingecko")
+                Image(systemName: "person.fill")
                     .resizable()
                     .scaledToFit()
-                    .frame(height: 100)
+                    .frame(width: 100, height: 100)
                     .clipShape(RoundedRectangle(cornerRadius: 20))
                 
-                Text("The cryptocurrency data that is used in this app comes from a free API, from CoinGecko🦎.")
+                Text("This app was developed by Ed Marrugo. It uses SwiftUI and is written 100% in Swift. The project benefits from multi-threading, publishers/subscribers, and data persistance.")
                     .font(.callout)
                     .fontWeight(.medium)
                     .minimumScaleFactor(0.8)
