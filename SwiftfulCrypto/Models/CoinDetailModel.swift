@@ -126,7 +126,7 @@ struct Description: Codable {
 
 struct Links: Codable {
     let homepage: [String]?
-    let officialForumURL: String?
+    let officialForumURL: [String]?
     
     enum CodingKeys: String, CodingKey {
         case homepage
