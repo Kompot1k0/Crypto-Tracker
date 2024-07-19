@@ -14,7 +14,7 @@ struct SettingsView: View {
     let coingeckoURL = URL(string: "https://docs.coingecko.com/reference/introduction")
     let personalGitURL = URL(string: "https://www.google.com")
     let personalDjinniURL = URL(string: "https://www.google.com")
-    let personalDouURL = URL(string: "https://www.google.com")
+    let personalDouURL = URL(string: "https://dou.ua/users/edik-marrugo/")
     
     var body: some View {
         NavigationStack {
@@ -84,7 +84,8 @@ extension SettingsView {
     private var developerSection: some View {
         Section(header: Text("Developer")) {
             VStack(alignment: .leading, spacing: 10) {
-                Image(systemName: "person.fill")
+//                Image(systemName: "person.fill")
+                Image("dev_photo")
                     .resizable()
                     .scaledToFit()
                     .frame(width: 100, height: 100)
@@ -95,13 +96,13 @@ extension SettingsView {
                     .fontWeight(.medium)
                     .minimumScaleFactor(0.8)
                     .foregroundColor(.theme.accent)
-                if let url = coingeckoURL {
+                if let url = personalGitURL {
                     Link("Visit GitHub", destination: url)
                 }
-                if let url = coingeckoURL {
+                if let url = personalDjinniURL {
                     Link("Visit Djinni", destination: url)
                 }
-                if let url = coingeckoURL {
+                if let url = personalDouURL {
                     Link("Visit DOU", destination: url)
                 }
             }
