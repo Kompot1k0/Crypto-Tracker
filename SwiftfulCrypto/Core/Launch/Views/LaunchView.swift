@@ -12,7 +12,7 @@ struct LaunchView: View {
     @State private var loadingText: [String] = "Loading your portfolio...".map { String($0) }
     @State private var isShowLoadingText: Bool = false
     
-    private let timer = Timer.publish(every: 0.1, on: .main, in: .common).autoconnect()
+    private let timer = Timer.publish(every: 0.05, on: .main, in: .common).autoconnect()
     @State private var counter: Int = 0
     @State private var cycle: Int = 0
     @Binding var isShowLaunchView: Bool
