@@ -22,6 +22,7 @@ struct HomeView: View {
             ZStack {
                 // background
                 Color.theme.background
+                    .ignoresSafeArea()
                     .sheet(isPresented: $isShowPortfolioView, onDismiss: { vm.selectedCoin = nil }) {
                         PortfolioView(selectedCoin: $vm.selectedCoin, quantityText: $vm.quantityText)
                             .environmentObject(vm)
@@ -96,6 +97,7 @@ extension HomeView {
                         .listRowInsets(.init(top: 10, leading: 0, bottom: 10, trailing: 10))
                 }
             }
+            .listRowBackground(Color.theme.background)
         }
         .listStyle(.plain)
         .refreshable {
@@ -112,8 +114,8 @@ extension HomeView {
             ForEach(vm.portfolioCoins) { coin in
                 CoinRowView(coin: coin, showHoldingColumn: true)
                     .listRowInsets(.init(top: 10, leading: 0, bottom: 10, trailing: 10))
-                // show EditPortfolio by press on coin with choosen coin selected
                     .onTapGesture {
+                        // show EditPortfolio by press on coin with choosen coin selected
                         if isShowPortfolio {
                             withAnimation(.spring()) {
                                 vm.selectedCoin = coin
@@ -132,6 +134,7 @@ extension HomeView {
                         })
                     })
             }
+            .listRowBackground(Color.theme.background)
         }
         .listStyle(.plain)
     }

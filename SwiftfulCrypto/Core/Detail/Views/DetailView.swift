@@ -23,17 +23,24 @@ struct DetailView: View {
     }
     
     var body: some View {
-        ScrollView {
-            ChartView(coin: vm.coin)
-            VStack(spacing: 20) {
-                overview
-                Divider()
-                description
-                Divider()
-                additionalDetails
-                websiteLinks
+        ZStack {
+            // background
+            Color.theme.background
+                .ignoresSafeArea()
+            
+            // foreground
+            ScrollView {
+                ChartView(coin: vm.coin)
+                VStack(spacing: 20) {
+                    overview
+                    Divider()
+                    description
+                    Divider()
+                    additionalDetails
+                    websiteLinks
+                }
+                .padding()
             }
-            .padding()
         }
         .navigationTitle(vm.coin.name)
         .toolbar {

@@ -18,12 +18,15 @@ struct SettingsView: View {
     
     var body: some View {
         NavigationStack {
-            List {
-                developerSection
-                aboutSection
-                coingeckoSection
-                applicationSection
+            ZStack {
+                List {
+                    developerSection
+                    aboutSection
+                    coingeckoSection
+                    applicationSection
+                }
             }
+            .font(.headline)
             .accentColor(.blue)
             .listStyle(.grouped)
             .navigationTitle("Settings")
@@ -33,6 +36,7 @@ struct SettingsView: View {
                 }
             }
         }
+        
     }
 }
 
@@ -84,7 +88,7 @@ extension SettingsView {
     private var developerSection: some View {
         Section(header: Text("Developer")) {
             VStack(alignment: .leading, spacing: 10) {
-//                Image(systemName: "person.fill")
+                //                Image(systemName: "person.fill")
                 Image("dev_photo")
                     .resizable()
                     .scaledToFit()

@@ -21,12 +21,19 @@ struct PortfolioView: View {
     
     var body: some View {
         NavigationStack {
-            ScrollView {
-                VStack(alignment: .leading, spacing: 0) {
-                    SearchBarView(searchBarText: $vm.searchBarText, selectedCoin: $vm.selectedCoin)
-                        .focused($isShowKeybord)
-                    coinLogoList
-                    selectedCoinDetails
+            ZStack {
+                // background
+                Color.theme.background
+                    .ignoresSafeArea()
+                
+                // foreground
+                ScrollView {
+                    VStack(alignment: .leading, spacing: 0) {
+                        SearchBarView(searchBarText: $vm.searchBarText, selectedCoin: $vm.selectedCoin)
+                            .focused($isShowKeybord)
+                        coinLogoList
+                        selectedCoinDetails
+                    }
                 }
             }
             .navigationTitle("Edit Portfolio")
