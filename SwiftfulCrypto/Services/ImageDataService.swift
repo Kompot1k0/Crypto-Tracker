@@ -37,6 +37,7 @@ class ImageDataService {
         guard let url = URL(string: coin.image) else { return }
         
         imageSubscription = NetworkingManager.download(from: url)
+            .receive(on: DispatchQueue.main)
             .tryMap({ data in
                 UIImage(data: data)
             })

@@ -30,15 +30,15 @@ struct HomeView: View {
                 // foreground
                 VStack {
                     homeHeader
-                                        
+                    
                     HomeStatView(isShowPortfolio: $isShowPortfolio)
-                                        
+                    
                     SearchBarView(searchBarText: $vm.searchBarText, selectedCoin: $vm.selectedCoin)
-                        
+                    
                     columnTitles
                     
                     coinsList
-            
+                    
                     Spacer(minLength: 0)
                 }
                 .sheet(isPresented: $isShowSettingsView) {
@@ -65,7 +65,7 @@ extension HomeView {
                             }
                         }
                     }
-
+                
                     .animation(.none, value: isShowPortfolio)
                     .background(CircleButtonAnimationView(animate: $isShowPortfolio))
                 
@@ -112,7 +112,7 @@ extension HomeView {
             ForEach(vm.portfolioCoins) { coin in
                 CoinRowView(coin: coin, showHoldingColumn: true)
                     .listRowInsets(.init(top: 10, leading: 0, bottom: 10, trailing: 10))
-                    // show EditPortfolio by press on coin with choosen coin selected
+                // show EditPortfolio by press on coin with choosen coin selected
                     .onTapGesture {
                         if isShowPortfolio {
                             withAnimation(.spring()) {
@@ -121,12 +121,14 @@ extension HomeView {
                             }
                         }
                     }
-                    // delete coin by swipe
+                // delete coin by swipe
                     .swipeActions(edge: .trailing,
                                   allowsFullSwipe: false,
                                   content: {
                         Button("Delete", role: .destructive, action: {
-                            vm.updatePortfolio(coin: coin, amount: 0)
+                            withAnimation() {
+                                vm.updatePortfolio(coin: coin, amount: 0)
+                            }
                         })
                     })
             }
@@ -138,12 +140,34 @@ extension HomeView {
         Group {
             if !isShowPortfolio {
                 allCoinsList
-                .transition(.move(edge: .leading))
+                    .transition(.move(edge: .leading))
             } else {
-                portfolioCoinsList
+                ZStack {
+                    if vm.portfolioCoins.isEmpty && vm.searchBarText.isEmpty {
+                        portfolioIsEmptyText
+                            .transition(.opacity)
+                    } else {
+                        portfolioCoinsList
+                    }
+                }
                 .transition(.move(edge: .trailing))
             }
         }
+    }
+    
+    private var portfolioIsEmptyText: some View {
+        VStack {
+            Spacer()
+            Text("""
+                    You haven't coins in portfolio et.
+                    Click ➕ to add some😉
+                    """)
+            .font(.title)
+            .foregroundColor(.theme.accent)
+            .multilineTextAlignment(.center)
+            Spacer()
+        }
+        .padding()
     }
     
     private var columnTitles: some View {
