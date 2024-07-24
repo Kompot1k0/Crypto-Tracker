@@ -114,6 +114,10 @@ struct CoinDetailModel: Identifiable, Codable {
         case categories
         case description, links
     }
+    
+    var readableDescription: String? {
+        return description?.en?.removingHTMLOccurances
+    }
 }
 
 struct Description: Codable {
@@ -122,10 +126,10 @@ struct Description: Codable {
 
 struct Links: Codable {
     let homepage: [String]?
-    let subredditURL: String?
+    let officialForumURL: [String]?
     
     enum CodingKeys: String, CodingKey {
         case homepage
-        case subredditURL = "subreddit_url"
+        case officialForumURL = "official_forum_url"
     }
 }

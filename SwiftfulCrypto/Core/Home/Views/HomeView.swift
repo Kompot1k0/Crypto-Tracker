@@ -13,6 +13,7 @@ struct HomeView: View {
     
     @State private var isShowPortfolio: Bool = false // animated right
     @State private var isShowPortfolioView: Bool = false // show sheet
+    @State private var isShowSettingsView: Bool = false // show sheet
     
     let manager = ScreenSizeManager.inscance
     
@@ -21,6 +22,7 @@ struct HomeView: View {
             ZStack {
                 // background
                 Color.theme.background
+                    .ignoresSafeArea()
                     .sheet(isPresented: $isShowPortfolioView, onDismiss: { vm.selectedCoin = nil }) {
                         PortfolioView(selectedCoin: $vm.selectedCoin, quantityText: $vm.quantityText)
                             .environmentObject(vm)
@@ -29,16 +31,19 @@ struct HomeView: View {
                 // foreground
                 VStack {
                     homeHeader
-                                        
+                    
                     HomeStatView(isShowPortfolio: $isShowPortfolio)
-                                        
+                    
                     SearchBarView(searchBarText: $vm.searchBarText, selectedCoin: $vm.selectedCoin)
-                        
+                    
                     columnTitles
                     
                     coinsList
-            
+                    
                     Spacer(minLength: 0)
+                }
+                .sheet(isPresented: $isShowSettingsView) {
+                    SettingsView()
                 }
             }
         }
@@ -55,9 +60,13 @@ extension HomeView {
                             withAnimation(.spring()) {
                                 isShowPortfolioView = true
                             }
+                        } else {
+                            withAnimation(.spring()) {
+                                isShowSettingsView = true
+                            }
                         }
                     }
-
+                
                     .animation(.none, value: isShowPortfolio)
                     .background(CircleButtonAnimationView(animate: $isShowPortfolio))
                 
@@ -88,6 +97,7 @@ extension HomeView {
                         .listRowInsets(.init(top: 10, leading: 0, bottom: 10, trailing: 10))
                 }
             }
+            .listRowBackground(Color.theme.background)
         }
         .listStyle(.plain)
         .refreshable {
@@ -104,8 +114,8 @@ extension HomeView {
             ForEach(vm.portfolioCoins) { coin in
                 CoinRowView(coin: coin, showHoldingColumn: true)
                     .listRowInsets(.init(top: 10, leading: 0, bottom: 10, trailing: 10))
-                    // show EditPortfolio by press on coin with choosen coin selected
                     .onTapGesture {
+                        // show EditPortfolio by press on coin with choosen coin selected
                         if isShowPortfolio {
                             withAnimation(.spring()) {
                                 vm.selectedCoin = coin
@@ -113,15 +123,18 @@ extension HomeView {
                             }
                         }
                     }
-                    // delete coin by swipe
+                // delete coin by swipe
                     .swipeActions(edge: .trailing,
                                   allowsFullSwipe: false,
                                   content: {
                         Button("Delete", role: .destructive, action: {
-                            vm.updatePortfolio(coin: coin, amount: 0)
+                            withAnimation() {
+                                vm.updatePortfolio(coin: coin, amount: 0)
+                            }
                         })
                     })
             }
+            .listRowBackground(Color.theme.background)
         }
         .listStyle(.plain)
     }
@@ -130,12 +143,34 @@ extension HomeView {
         Group {
             if !isShowPortfolio {
                 allCoinsList
-                .transition(.move(edge: .leading))
+                    .transition(.move(edge: .leading))
             } else {
-                portfolioCoinsList
+                ZStack {
+                    if vm.portfolioCoins.isEmpty && vm.searchBarText.isEmpty {
+                        portfolioIsEmptyText
+                            .transition(.opacity)
+                    } else {
+                        portfolioCoinsList
+                    }
+                }
                 .transition(.move(edge: .trailing))
             }
         }
+    }
+    
+    private var portfolioIsEmptyText: some View {
+        VStack {
+            Spacer()
+            Text("""
+                    You haven't coins in portfolio et.
+                    Click ➕ to add some😉
+                    """)
+            .font(.title)
+            .foregroundColor(.theme.accent)
+            .multilineTextAlignment(.center)
+            Spacer()
+        }
+        .padding()
     }
     
     private var columnTitles: some View {
@@ -190,7 +225,7 @@ struct HomeView_Previews: PreviewProvider {
         NavigationStack {
             HomeView()
                 .toolbar(.hidden)
-                .environmentObject(dev.vm)
         }
+        .environmentObject(dev.vm)
     }
 }
